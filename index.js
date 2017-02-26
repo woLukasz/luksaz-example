@@ -33,8 +33,15 @@ app.set('port', process.env.PORT || 3000);
  *
  */
 app.get('/webhook', function(req, res) {
-  if (req.query['hub.mode'] === 'subscribe' &&
-      req.query['hub.verify_token'] === VALIDATION_TOKEN) {
+  const hubMode = req.query['hub.mode'];
+  const verifyToken = req.query['hub.verify_token'];
+  
+  console.log(hubMode);
+  console.log('provided token', verifyToken);
+  console.log('config token', VALIDATION_TOKEN);
+  
+  if (hubMode === 'subscribe' &&
+	  verifyToken === VALIDATION_TOKEN) {
     console.log("Validating webhook");
     res.status(200).send(req.query['hub.challenge']);
   } else {
